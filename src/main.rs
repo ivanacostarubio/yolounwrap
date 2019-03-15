@@ -1,14 +1,23 @@
-use std::net::SocketAddr;
-
+use std::net::SocketAddrV4;
 
 fn main() {
 
     println!("YOLO UNWRAPS!!");
 
-    let default = "127.0.0.1:10009";
-    let socket_addr_string = std::env::args()
-        .into_iter().skip(1).next()
-        .unwrap_or(default.to_owned());
-    let socket_addr: SocketAddr = socket_addr_string.parse().unwrap();
-    let host = socket_addr.ip().to_string();
+    let socket_addr_string = match std::env::args().into_iter().skip(1).next() {
+        Some(s) => s,
+        None => String::from("127.0.0.1:90009")
+    };
+    
+   if let Ok(socket_addr) = socket_addr_string.parse::<SocketAddrV4>(){
+        println!("{:?}", socket_addr);
+        println!("🍻");
+        println!("OK");
+   }else{
+       panic!("Could not parse lnd host. Please use IP:PORT!");
+   }
+   
+   
+
 }
+
